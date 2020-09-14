@@ -7,11 +7,13 @@ public class Camera : MonoBehaviour
     public Vector2 mouseAxis;
     public Transform Player;
 
-    float xRotation;
+    public Animator charterAnimator;
 
+    public float xRotation;
+
+    public PlayerController playerController;
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -21,10 +23,12 @@ public class Camera : MonoBehaviour
         mouseAxis.y = Input.GetAxis("Mouse Y");
 
         xRotation -= mouseAxis.y;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
+        xRotation = Mathf.Clamp(xRotation, -75, 50);
 
         Player.Rotate(Vector3.up * mouseAxis.x);
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
+        playerController.spineRotation = xRotation;
     }
+
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class PlayerController : MonoBehaviour
 {
     public Animator charterAnimator;
     public CharacterController characterController;
+    public AudioSource audioSource;
+
+    public AudioClip m4a1;
 
     public float gravity = 9.81f;
     public float speed = 5;
@@ -15,16 +19,23 @@ public class PlayerController : MonoBehaviour
 
     float directionY;
 
-    public Vector2 Axis;
+    public float spineRotation;
+    public Transform spine;
+
+    public Transform FirePoint;
+    public ParticleSystem MuzzleEffect;
+
+    Vector2 Axis;
     void Start()
     {
-        
+        charterAnimator = gameObject.GetComponent<Animator>();
+        characterController = gameObject.GetComponent<CharacterController>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Axis.x = Input.GetAxis("Horizontal");
         Axis.y = Input.GetAxis("Vertical");
 
@@ -61,5 +72,15 @@ public class PlayerController : MonoBehaviour
         characterController.Move(transform.TransformDirection(dir) * speed * Time.deltaTime);
 
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            audioSource.PlayOneShot(m4a1);
+        }
+
+    }
+
+    private void LateUpdate()
+    {
+        spine.rotation *= Quaternion.Euler(Vector3.right * spineRotation);
     }
 }
