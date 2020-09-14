@@ -9,9 +9,6 @@ public class PlayerController : MonoBehaviour
 {
     public Animator charterAnimator;
     public CharacterController characterController;
-    public AudioSource audioSource;
-
-    public AudioClip m4a1;
 
     public float gravity = 9.81f;
     public float speed = 5;
@@ -22,15 +19,11 @@ public class PlayerController : MonoBehaviour
     public float spineRotation;
     public Transform spine;
 
-    public Transform FirePoint;
-    public ParticleSystem MuzzleEffect;
-
     Vector2 Axis;
     void Start()
     {
         charterAnimator = gameObject.GetComponent<Animator>();
         characterController = gameObject.GetComponent<CharacterController>();
-        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -71,11 +64,6 @@ public class PlayerController : MonoBehaviour
 
         characterController.Move(transform.TransformDirection(dir) * speed * Time.deltaTime);
 
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            audioSource.PlayOneShot(m4a1);
-        }
 
     }
 
