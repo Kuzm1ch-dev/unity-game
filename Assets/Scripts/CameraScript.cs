@@ -10,6 +10,7 @@ public class CameraScript : MonoBehaviour
     public Animator charterAnimator;
 
     public float xRotation;
+    public float yRotation;
 
     public PlayerController playerController;
     void Start()
@@ -23,9 +24,10 @@ public class CameraScript : MonoBehaviour
         mouseAxis.y = Input.GetAxis("Mouse Y");
 
         xRotation -= mouseAxis.y;
+        yRotation = mouseAxis.x;
         xRotation = Mathf.Clamp(xRotation, -75, 50);
 
-        Player.Rotate(Vector3.up * mouseAxis.x);
+        Player.Rotate(Vector3.up * yRotation);
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
         playerController.spineRotation = xRotation;

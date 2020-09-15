@@ -13,9 +13,15 @@ public class WeaponScript : MonoBehaviour
     public GameObject decal;
 
     public float delay;
+
+    public Vector2 xscatter = new Vector2(0.5f,1f);
+    public Vector2 yscatter = new Vector2(-0.5f, 0.5f);
+
+    CameraScript camera;
     // Start is called before the first frame update
     void Start()
     {
+        camera = Camera.main.GetComponent<CameraScript>();
     }
 
     // Update is called once per frame
@@ -37,11 +43,12 @@ public class WeaponScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            Quaternion hitRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
-            GameObject Decal = Instantiate<GameObject>(decal, hit.point + (hit.normal * 0.001f),hitRotation);
-            decal.transform.parent = hit.collider.transform;
+            Quaternion hitRotation = Quaternion.FromToRotation(Vector3.back, hit.normal);
+            GameObject Decal = Instantiate<GameObject>(decal, hit.point + (hit.normal * 0.01f),hitRotation);
+            Decal.transform.parent = hit.collider.transform;
         }
-
+        camera.xRotation -= Random.Range(yscatter.x, yscatter.y);
+        camera.Player.Rotate(Vector3.up * Random.Range(xscatter.x, xscatter.y));
         StopCoroutine("Fire");
     }
 }
